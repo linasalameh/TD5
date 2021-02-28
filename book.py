@@ -1,3 +1,5 @@
+import pandas as pd 
+
 class Order:
     def __init__(self, quantity, price,id, buy=True):
         self.quantity=quantity
@@ -53,11 +55,13 @@ class Book:
         
     def print_book(self):
         print("Book on " + self.name)
+        liste = []
         for sell in self.sell_orders:
-            print(" SELL " + str(sell.quantity)  +"@"+ str(sell.price) + " id= "+ str(sell.id))
+            liste.append(["SELL", str(sell.quantity), str(sell.price), str(sell.id)])
         for buy in self.buy_orders :
-            print(" BUY " + str(buy.quantity)  +"@"+ str(buy.price) + " id= "+ str(buy.id))
+            liste.append(["BUY", str(buy.quantity), str(buy.price), str(buy.id)])
+        df = pd.DataFrame(liste, columns=['Direction', 'Quantity', 'Price', 'id'])
+        print(df)
         print( "------------------------------------------------------" )
-    
     
 
