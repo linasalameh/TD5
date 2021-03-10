@@ -1,7 +1,18 @@
 import pandas as pd 
 
 class Order:
+    """
+    Creéation d'un ordre
+    """
+    
     def __init__(self, quantity, price,id, buy=True):
+        """
+        initialise l'objet ordre
+        quantity : quantité de l'ordre (int)
+        price : price de l'ordre (float)
+        id : identifiant de l'ordre géré dans la classe book (int)
+        buy : true veut dire achat et false veut dire vente (booleen)
+        """
         self.quantity=quantity
         self.price = price
         self.buy=buy
@@ -12,7 +23,21 @@ class Order:
     
 
 class Book:
+    """
+    Contient et exécute tout les ordres et fait l'affichage 
+
+    """
+
+
     def __init__(self, name, buy_orders=[], sell_orders=[]):
+
+        """
+        initalise le book
+        name : nom du book (string)
+        buy_orders : liste qui contient les ordres d'achats
+        sell_orders : liste qui contient les ordres de ventes
+        id : initialise l'id à 0
+        """
         self.name=name
         self.buy_orders=buy_orders
         self.sell_orders=sell_orders
@@ -20,6 +45,13 @@ class Book:
 
     
     def execute_orders(self):
+
+        """
+        Execute les ordres de ventes et d'achats possibles.
+        Met à jour les quantités. 
+
+        """
+
         for sell in self.sell_orders[:] :
             for buy in self.buy_orders[:] :
                 if sell.price <= buy.price:
@@ -38,6 +70,18 @@ class Book:
                         self.buy_orders.remove(buy)
 
     def insert_buy(self,qty, price):
+
+        """
+        Insert un ordre d'achat dans la liste buy_orders
+        Trie la liste dans l'odre des prix décroissants
+        Print le book 
+        id : on incrémente l'id de 1
+        qty : quantite de l'odre d'achat (int)
+        price : prix de l'odre d'achat (float)
+
+
+        """
+
         self.id =self.id + 1
         self.buy_orders.append(Order(qty,price,self.id, True))
         self.buy_orders.sort(key=lambda x: x.price, reverse= True)
@@ -46,6 +90,17 @@ class Book:
         self.print_book()
 
     def insert_sell(self,qty, price):
+
+        """
+        Insert un ordre de vente la liste sell_orders
+        Trie la liste dans l'ordre des prix décroissants
+        Print le book
+        id : on incrémente l'id de 1
+        qty : quantite de l'ordre de vente (int)
+        price : prix de l'ordre de vente (float)
+
+        """
+
         self.id =self.id + 1  
         self.sell_orders.append(Order(qty,price,self.id,False))
         self.sell_orders.sort(key=lambda x: x.price, reverse= True)
@@ -54,6 +109,15 @@ class Book:
         self.print_book()
         
     def print_book(self):
+
+        """
+        Affichage du book avec data frame
+        Direction : ordre buy ou sell
+        Quantity : quantité de l'odre
+        Price : price de l'odre
+        id : id de l'ordre 
+        """
+
         print("Book on " + self.name)
         liste = []
         for sell in self.sell_orders:
